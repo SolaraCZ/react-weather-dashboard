@@ -1,14 +1,14 @@
 export default function FavoritesList() {
-  const quickCities = ['Praha', 'Brno', 'Vídeň', 'Bratislava'];
+  const cities = ['Prague', 'Berlin', 'Vienna', 'Bratislava'];
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-xs text-slate-400 font-medium">Rychlý výběr:</span>
-      {quickCities.map((city) => (
+    <div className="flex items-center gap-2 text-xs font-mono">
+      <span className="text-zinc-600 font-bold uppercase">Quick:</span>
+      {cities.map((city) => (
         <button
           key={city}
           type="button"
-          className="text-xs px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:border-sky-500/50 hover:text-sky-400 transition-colors"
+          className="px-3 py-1 bg-white hover:bg-zinc-200 border border-zinc-300 text-zinc-900 font-semibold rounded text-xs transition-colors"
         >
           {city}
         </button>
