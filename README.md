@@ -10,7 +10,7 @@ Live Demo: [https://solaracz.github.io/react-weather-dashboard/](https://solarac
 * **Build Tool:** Vite
 * **Styling:** Tailwind CSS (v3)
 * **API:** OpenWeatherMap API (2.5)
-* **Hosting / CI:** GitHub Pages, GitHub Actions
+* **Hosting:** GitHub Pages
 
 ## License
 
