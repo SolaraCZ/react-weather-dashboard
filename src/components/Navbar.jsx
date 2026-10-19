@@ -5,7 +5,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <div className="w-3.5 h-3.5 bg-zinc-950 rounded-none"></div>
           <span className="font-mono text-sm font-bold tracking-wider uppercase text-zinc-950">
-            Weather / Live
+            Weather
           </span>
         </div>
         <span className="font-mono text-xs text-zinc-600 font-semibold uppercase tracking-wider">
