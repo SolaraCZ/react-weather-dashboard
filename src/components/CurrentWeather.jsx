@@ -1,4 +1,4 @@
-export default function CurrentWeather({ data }) {
+export default function CurrentWeather({ data, onSaveCity, isSaved }) {
   if (!data) return null;
 
   const { name, sys, main, weather, wind } = data;
@@ -12,10 +12,24 @@ export default function CurrentWeather({ data }) {
     <div className="bg-white border-2 border-zinc-300 rounded-lg p-6 shadow-sm">
       <div className="flex items-start justify-between border-b-2 border-zinc-200 pb-6">
         <div>
-          <span className="font-mono text-xs uppercase tracking-wider font-bold text-zinc-500">
-            Current Conditions
-          </span>
-          <h2 className="text-4xl font-black text-zinc-950 mt-1 tracking-tight">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs uppercase tracking-wider font-bold text-zinc-500">
+              Current Conditions
+            </span>
+            <button
+              type="button"
+              onClick={() => onSaveCity(name)}
+              className={`font-mono text-xs uppercase font-bold px-2 py-0.5 rounded border transition-colors ${
+                isSaved
+                  ? 'bg-zinc-950 text-white border-zinc-950 cursor-default'
+                  : 'bg-white text-zinc-700 border-zinc-300 hover:border-zinc-950'
+              }`}
+            >
+              {isSaved ? 'SAVED' : '+ SAVE CITY'}
+            </button>
+          </div>
+
+          <h2 className="text-4xl font-black text-zinc-950 mt-2 tracking-tight">
             {name}, <span className="text-zinc-600 font-bold">{sys?.country}</span>
           </h2>
           <p className="text-zinc-700 font-medium text-base mt-1 capitalize">{description}</p>
