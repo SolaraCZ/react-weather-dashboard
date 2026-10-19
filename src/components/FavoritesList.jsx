@@ -1,4 +1,4 @@
-export default function FavoritesList() {
+export default function FavoritesList({ onSelectCity }) {
   const cities = ['Prague', 'Berlin', 'Vienna', 'Bratislava'];
 
   return (
@@ -8,6 +8,7 @@ export default function FavoritesList() {
         <button
           key={city}
           type="button"
+          onClick={() => onSelectCity(city)}
           className="px-3 py-1 bg-white hover:bg-zinc-200 border border-zinc-300 text-zinc-900 font-semibold rounded text-xs transition-colors"
         >
           {city}

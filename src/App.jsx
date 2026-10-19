@@ -1,26 +1,81 @@
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import SearchBar from './components/SearchBar';
 import FavoritesList from './components/FavoritesList';
 import CurrentWeather from './components/CurrentWeather';
 import ForecastList from './components/ForecastList';
+import { fetchCurrentWeather, fetchForecast } from './services/weatherService';
 
 export default function App() {
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const loadData = async (targetCity) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Paralelní stažení obou endpointů najednou
+      const [weatherData, forecastData] = await Promise.all([
+        fetchCurrentWeather(targetCity),
+        fetchForecast(targetCity),
+      ]);
+
+      setCurrentWeather(weatherData);
+      setForecast(forecastData);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch weather data.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Načtení výchozího města po startu aplikace
+  useEffect(() => {
+    loadData('Prague');
+  }, []);
+
   return (
     <div className="min-h-screen bg-zinc-100 text-zinc-950 flex flex-col font-sans">
       <Navbar />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8 flex flex-col gap-6">
         <section className="flex flex-col gap-3">
-          <SearchBar />
-          <FavoritesList />
+          <SearchBar onSearch={loadData} loading={loading} />
+          <FavoritesList onSelectCity={loadData} />
         </section>
 
-        <section>
-          <CurrentWeather />
-          <ForecastList />
-        </section>
+        {/* Chybový stav */}
+        {error && (
+          <div className="p-4 bg-zinc-900 border-2 border-zinc-950 text-white rounded-md text-sm font-mono flex items-center justify-between">
+            <span>[ERROR]: {error}</span>
+            <button
+              type="button"
+              onClick={() => setError(null)}
+              className="text-zinc-400 hover:text-white font-bold ml-4"
+            >
+              DISMISS [X]
+            </button>
+          </div>
+        )}
+
+        {/* Načítací stav */}
+        {loading && (
+          <div className="p-12 text-center font-mono text-sm uppercase tracking-wider text-zinc-500">
+            Fetching telemetry from weather satellite...
+          </div>
+        )}
+
+        {/* Zobrazení dat */}
+        {!loading && currentWeather && (
+          <section>
+            <CurrentWeather data={currentWeather} />
+            <ForecastList forecast={forecast} />
+          </section>
+        )}
       </main>
-
     </div>
   );
 }
